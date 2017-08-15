@@ -2,6 +2,8 @@ import mobx from 'mobx';
 
 const { observable, action } = mobx;
 
+console.log('called');
+
 export const excelStore = {
   dataCells: observable({
     '1_1': '5',
@@ -11,13 +13,14 @@ export const excelStore = {
 
   getCellValueEval: (rowIndex, cellIndex) => {
     const cellId = `${rowIndex}_${cellIndex}`;
-    return eval(excelStore.dataCells[cellId]);
+    return (excelStore.dataCells[cellId]);
   },
   updateSelected: action(function (newId) {
     excelStore.selected.set(newId);
   }),
-  eventOnClick: function (event) {
+  eventOnClick: action(function (event) {
     const cellId = event.target.dataset.cellid;
+    console.log(cellId);
     excelStore.updateSelected(cellId);
-  }
+  })
 }
