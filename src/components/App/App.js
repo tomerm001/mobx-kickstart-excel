@@ -5,6 +5,8 @@ import Row from '../Row';
 import Header from '../Header';
 import FormulaEditor from '../FormulaEditor';
 
+import {excelStore} from '../../store/store';
+
 function App() {
     return (
         <div className={s.root}>
