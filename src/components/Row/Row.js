@@ -11,16 +11,10 @@ const {observer} = mobxReact;
 
 const Row = observer(function ({rowIndex}) {
 
-  const checkIfSelected = function (cellIndex) {
-    console.log(`${rowIndex}_${cellIndex}`);
-    return `${rowIndex}_${cellIndex}` === excelStore.selected.get();
-  };
-
   return (
     <tr className={s.tableRow}>
       <th>{rowIndex + 1}</th>
-      { _.times(10, cellIndex => <Cell key={cellIndex} rowIndex={rowIndex} cellIndex={cellIndex}
-                                       selected={checkIfSelected(cellIndex)}/>) }
+      { _.times(10, cellIndex => <Cell key={cellIndex} rowIndex={rowIndex} cellIndex={cellIndex} />) }
     </tr>
   );
 });
