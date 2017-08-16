@@ -18,10 +18,18 @@ class InputWithState extends React.Component {
     };
   }
 
+  shouldComponentUpdate() {
+    console.log('should update');
+    return true;
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
       this.setState({value: nextProps.value});
     }
+
+    console.log('component wil receive props');
+    this.cellInput.focus();
   }
 
   componentDidMount() {
@@ -39,7 +47,12 @@ class InputWithState extends React.Component {
     this.setState({value: e.target.value});
   }
 
+  focus() {
+    this.cellInput.focus();
+  }
+
   render() {
+
     return (
       <input type="text"
              className={s.formulaInput}

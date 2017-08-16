@@ -11,6 +11,7 @@ export const excelStore = {
 
   selected: observable('0_0'),
 
+
   getCellValueEval: (rowIndex, cellIndex) => {
     const cellId = `${rowIndex}_${cellIndex}`;
     return eval(excelStore.dataCells.get(cellId));
