@@ -1,57 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import s from './FormulaEditor.scss';
+import mobxReact from 'mobx-react';
+
+import {excelStore} from '../../store/store';
+const {observer} = mobxReact;
 
 class InputWithState extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.onChange = this.onChange.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
 
-        this.state = {
-            value: props.value
-        };
-    }
+    this.state = {
+      value: props.value
+    };
+  }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.value !== this.props.value) {
-            this.setState({ value: nextProps.value });
-        }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      this.setState({value: nextProps.value});
     }
+  }
 
-    onKeyPress(e) {
-        if (e.key === 'Enter') {
-            this.props.onChange(this.state.value);
-        }
-    }
+  componentDidMount() {
+    this.cellInput.focus();
+  }
 
-    onChange(e) {
-        this.setState({ value: e.target.value });
+  onKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.props.onChange(this.state.value);
     }
+  }
 
-    render() {
-        return (
-            <input type="text"
-                   className={s.formulaInput}
-                   onChange={this.onChange}
-                   onKeyPress={this.onKeyPress}
-                   value={this.state.value}
-            />
-        )
-    }
+  onChange(e) {
+    excelStore.updateCellOfSelected(e.target.value);
+    this.setState({value: e.target.value});
+  }
+
+  render() {
+    return (
+      <input type="text"
+             className={s.formulaInput}
+             onChange={this.onChange}
+             onKeyPress={this.onKeyPress}
+             value={this.state.value}
+             ref={(input) => {
+               this.cellInput = input;
+             }}
+      />
+    )
+  }
 }
 
 InputWithState.propTypes = {
-    value: PropTypes.string,
-    onChange: PropTypes.func.isRequired
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired
 };
 
-const FormulaEditor = () => (
-    <div className={s.formulaEditor}>
-        Formula: <InputWithState value="" onChange={() => {}} />
-    </div>
+const FormulaEditor = observer(() => (
+  <div className={s.formulaEditor}>
+    Formula: <InputWithState value={excelStore.getSelectedValue()} onChange={() => {
+  }}/>
+  </div>
 
-);
+));
 
 export default FormulaEditor;

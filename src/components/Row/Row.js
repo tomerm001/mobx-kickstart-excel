@@ -5,12 +5,9 @@ import _ from 'lodash';
 import Cell from '../Cell';
 import mobxReact from 'mobx-react';
 
-import {excelStore} from '../../store/store';
 const {observer} = mobxReact;
 
-
 const Row = observer(function ({rowIndex}) {
-
   return (
     <tr className={s.tableRow}>
       <th>{rowIndex + 1}</th>
